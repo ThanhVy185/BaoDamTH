@@ -1,41 +1,25 @@
 ﻿using OpenQA.Selenium;
-using Lab8.Utilities;
 
-namespace Lab8.Pages
+public class BillPayPage
 {
-    public class BillPayPage
+    private IWebDriver driver;
+
+    public BillPayPage(IWebDriver driver)
     {
-        IWebDriver driver;
+        this.driver = driver;
+    }
 
-        public BillPayPage(IWebDriver driver)
-        {
-            this.driver = driver;
-        }
+    public void Pay(string name, string addr, string city, string state, string zip, string phone, string acc, string amount)
+    {
+        driver.FindElement(By.Name("payee.name")).SendKeys(name);
+        driver.FindElement(By.Name("payee.address.street")).SendKeys(addr);
+        driver.FindElement(By.Name("payee.address.city")).SendKeys(city);
+        driver.FindElement(By.Name("payee.address.state")).SendKeys(state);
+        driver.FindElement(By.Name("payee.address.zipCode")).SendKeys(zip);
+        driver.FindElement(By.Name("payee.phoneNumber")).SendKeys(phone);
+        driver.FindElement(By.Name("payee.accountNumber")).SendKeys(acc);
+        driver.FindElement(By.Name("amount")).SendKeys(amount);
 
-        public void PayBill()
-        {
-            driver.FindElement(By.LinkText("Bill Pay")).Click();
-
-            driver.FindElement(By.Name("payee.name")).SendKeys("Test");
-            DelayHelper.Sleep(300);
-            driver.FindElement(By.Name("payee.address.street")).SendKeys("HCM");
-            DelayHelper.Sleep(300);
-            driver.FindElement(By.Name("payee.address.city")).SendKeys("HCM");
-            DelayHelper.Sleep(300);
-            driver.FindElement(By.Name("payee.address.state")).SendKeys("HCM"); 
-            DelayHelper.Sleep(300);
-            driver.FindElement(By.Name("payee.address.zipCode")).SendKeys("70000");
-            DelayHelper.Sleep(300);
-            driver.FindElement(By.Name("payee.phoneNumber")).SendKeys("0123");
-            DelayHelper.Sleep(300);
-            driver.FindElement(By.Name("payee.accountNumber")).SendKeys("123");
-            DelayHelper.Sleep(300);
-            driver.FindElement(By.Name("verifyAccount")).SendKeys("123");
-            DelayHelper.Sleep(300);
-            driver.FindElement(By.Name("amount")).SendKeys("10");
-            DelayHelper.Sleep(300);
-
-            driver.FindElement(By.XPath("//input[@value='Send Payment']")).Click();
-        }
+        driver.FindElement(By.XPath("//input[@value='Send Payment']")).Click();
     }
 }

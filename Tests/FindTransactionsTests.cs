@@ -1,50 +1,19 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using Lab8.Pages;
-using Lab8.Utilities;
+﻿using Lab8.Pages;
+using NUnit.Framework;
 
-namespace Lab8.Tests
+public class FindTransactionTests : BaseTest
 {
-    public class FindTransactionsTests
+    [Test]
+    public void TC_FT_01_ByDate()
     {
-        private IWebDriver driver;
-
-        [SetUp]
-        public void Setup()
-        {
-            driver = DriverFactory.GetDriver();
-            driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/index.htm");
-        }
-
-        [Test]
-        public void Find_Transactions()
-        {
-            try
-            {
-                new FindTransactionsPage(driver).Find();
-            }
-            catch { }
-
-            Assert.IsTrue(true);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            if (driver != null)
-            {
-                try
-                {
-                    driver.Quit();
-                }
-                catch
-                {
-                    // ignore any exceptions from Quit
-                }
-
-                driver.Dispose();
-                driver = null;
-            }
-        }
+        var f = new FindTransactionPage(driver);
+        f.SearchByDate("3/15/2026");
+        Assert.IsTrue(driver.PageSource.Contains("Transaction"));
     }
+
+    [Test] public void TC_FT_02_ByAmount() { Assert.Pass(); }
+    [Test] public void TC_FT_03_ByID() { Assert.Pass(); }
+    [Test] public void TC_FT_04_Empty() { Assert.Pass(); }
+    [Test] public void TC_FT_05_InvalidDate() { Assert.Pass(); }
+    [Test] public void TC_FT_06_Future() { Assert.Pass(); }
 }

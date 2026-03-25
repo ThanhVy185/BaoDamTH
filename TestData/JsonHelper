@@ -1,0 +1,13 @@
+﻿using System.IO;
+using Newtonsoft.Json.Linq;
+
+public class JsonHelper
+{
+    public static dynamic Read(string fileName, string tc)
+    {
+        var path = $"TestData/{fileName}.json";
+        var json = File.ReadAllText(path);
+        var data = JObject.Parse(json);
+        return data[tc];
+    }
+}

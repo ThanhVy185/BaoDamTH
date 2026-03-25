@@ -1,0 +1,35 @@
+﻿{
+  "TC01": {
+    "firstName": "Sang",
+    "lastName": "Tran",
+    "address": "123 Ly Thuong Kiet",
+    "city": "HCM",
+    "state": "HCM",
+    "zip": "577584374",
+    "phone": "4673466448",
+    "ssn": "123456789",
+    "username": "sang3107",
+    "password": "password123"
+  },
+  "TC02": {
+    "firstName": "",
+    "lastName": "",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "phone": "",
+    "ssn": "",
+    "username": "",
+    "password": ""
+  },
+  "TC03": {
+    "ssn": "abc"
+  },
+  "TC04": {
+    "phone": "abc@@"
+  },
+  "TC30": {
+    "username": "sang!@#"
+  }
+}

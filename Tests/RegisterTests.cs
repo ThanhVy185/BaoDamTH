@@ -1,69 +1,57 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using Lab8.Pages;
-using Lab8.Utilities;
-using System;
 
-namespace Lab8.Tests
+public class RegisterTests : BaseTest
 {
-    public class RegisterTests
+    [Test]
+    public void TC_AUTH_01_Valid()
     {
-        private IWebDriver driver;
+        var page = new RegisterPage(driver);
+        page.GoToRegister();
 
-        [SetUp]
-        public void Setup()
-        {
-            driver = DriverFactory.GetDriver();
-            driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/index.htm");
-        }
+        page.Register("Sang", "Tran", "123 Ly Thuong Kiet",
+            "HCM", "HCM", "577584374",
+            "4673466448", "123456789",
+            "sang3107", "password123", "password123");
 
-        // ✔ Test 1
-        [Test]
-        public void Register_User_1()
-        {
-            RegisterPage register = new RegisterPage(driver);
+        Assert.IsTrue(driver.PageSource.Contains("Your account was created successfully"));
+    }
 
-            register.NavigateToRegister();
+    [Test]
+    public void TC_AUTH_02_Empty()
+    {
+        var page = new RegisterPage(driver);
+        page.GoToRegister();
 
-            string username = "user" + DateTime.Now.Ticks;
+        page.Register("", "", "", "", "", "", "", "", "", "", "");
 
-            register.RegisterUser(username, "123456");
+        Assert.IsTrue(driver.PageSource.Contains("is required"));
+    }
 
-            Assert.IsTrue(true); // luôn pass
-        }
+    [Test]
+    public void TC_AUTH_03_Invalid_SSN()
+    {
+        var page = new RegisterPage(driver);
+        page.GoToRegister();
 
-        // ✔ Test 2
-        [Test]
-        public void Register_User_2()
-        {
-            RegisterPage register = new RegisterPage(driver);
+        page.Register("Sang", "Tran", "123",
+            "HCM", "HCM", "123",
+            "123", "abc",
+            "user1", "123", "123");
 
-            register.NavigateToRegister();
+        Assert.IsTrue(driver.PageSource.Contains("error"));
+    }
 
-            string username = "test" + DateTime.Now.Ticks;
+    [Test]
+    public void TC_AUTH_04_Invalid_Phone()
+    {
+        var page = new RegisterPage(driver);
+        page.GoToRegister();
 
-            register.RegisterUser(username, "123456");
+        page.Register("Sang", "Tran", "123",
+            "HCM", "HCM", "123",
+            "abc@@@", "123",
+            "user2", "123", "123");
 
-            Assert.IsTrue(true); // luôn pass
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            if (driver != null)
-            {
-                try
-                {
-                    driver.Quit();
-                }
-                catch
-                {
-                    // ignore any exceptions from Quit
-                }
-
-                driver.Dispose();
-                driver = null;
-            }
-        }
+        Assert.IsTrue(driver.PageSource.Contains("error"));
     }
 }

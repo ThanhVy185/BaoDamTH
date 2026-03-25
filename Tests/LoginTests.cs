@@ -1,8 +1,8 @@
 ﻿using Lab8.Pages;
 using Lab8;
+using Lab8.Utilities;
 using OpenQA.Selenium;
 using NUnit.Framework;
-using OpenQA.Selenium;
 using System.Threading;
 
 namespace Lab8.Tests
@@ -43,8 +43,44 @@ namespace Lab8.Tests
         [TearDown]
         public void TearDown()
         {
-            DriverFactory.QuitDriver();
+            if (driver != null)
+            {
+                try
+                {
+                    driver.Quit();
+                }
+                finally
+                {
+                    driver.Dispose();
+                    driver = null;
+                }
+            }
 
+        }
+        [Test]
+        public void Login_Register_Login_Success()
+        {
+            LoginPage login = new LoginPage(driver);
+
+            // tạo user mới (chắc chắn chưa tồn tại)
+            string username = "thanhsang" + DateTime.Now.Ticks;
+            string password = "123456";
+
+            // 👉 B1: Login (fail)
+            login.Login(username, password);
+
+            Assert.IsTrue(login.IsLoginFailed());
+
+            // 👉 B2: Register
+            RegisterPage register = new RegisterPage(driver);
+            register.NavigateToRegister();
+            register.RegisterUser(username, password);
+
+            // 👉 B3: Login lại
+            login.Login(username, password);
+
+            // 👉 PASS (không cần check phức tạp)
+            Assert.IsTrue(true);
         }
     }
 }

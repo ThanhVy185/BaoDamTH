@@ -1,26 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
+using Lab8.Utilities;
 
 namespace Lab8.Pages
 {
     public class TransferFundsPage
     {
-        IWebDriver driver;
+        private IWebDriver driver;
 
         public TransferFundsPage(IWebDriver driver)
         {
             this.driver = driver;
         }
 
-        public void Transfer(string amount)
+        private By transferLink = By.LinkText("Transfer Funds");
+        private By amount = By.Id("amount");
+        private By transferBtn = By.XPath("//input[@value='Transfer']");
+        private By successMsg = By.XPath("//h1[contains(text(),'Transfer Complete')]");
+
+        public void Transfer(string money)
         {
-            driver.FindElement(By.LinkText("Transfer Funds")).Click();
-            driver.FindElement(By.Id("amount")).SendKeys(amount);
-            driver.FindElement(By.CssSelector("input[value='Transfer']")).Click();
+            driver.FindElement(transferLink).Click();
+            ScreenshotHelper.TakeScreenshot(driver, "Step1_Click");
+
+            driver.FindElement(amount).SendKeys(money);
+            ScreenshotHelper.TakeScreenshot(driver, "Step2_Input");
+
+            driver.FindElement(transferBtn).Click();
+            ScreenshotHelper.TakeScreenshot(driver, "Step3_Submit");
+        }
+
+        public bool IsTransferSuccessful()
+        {
+            return driver.FindElement(successMsg).Displayed;
         }
     }
 }

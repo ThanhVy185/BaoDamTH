@@ -1,15 +1,23 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-namespace Lab8.Utilities
+public class DriverFactory
 {
-    public class DriverFactory
+    private static IWebDriver driver;
+
+    public static IWebDriver GetDriver()
     {
-        public static IWebDriver GetDriver()
+        if (driver == null)
         {
-            IWebDriver driver = new ChromeDriver();
+            driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            return driver;
         }
+        return driver;
+    }
+
+    public static void QuitDriver()
+    {
+        driver.Quit();
+        driver = null;
     }
 }

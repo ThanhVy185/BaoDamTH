@@ -1,26 +1,22 @@
 ﻿using OpenQA.Selenium;
-using Lab8.Utilities;
+using OpenQA.Selenium.Support.UI;
 
-namespace Lab8.Pages
+public class OpenAccountPage
 {
-    public class OpenAccountPage
+    IWebDriver driver;
+
+    public OpenAccountPage(IWebDriver driver)
     {
-        IWebDriver driver;
+        this.driver = driver;
+    }
 
-        public OpenAccountPage(IWebDriver driver)
-        {
-            this.driver = driver;
-        }
+    public void OpenAccount(string type)
+    {
+        driver.FindElement(By.LinkText("Open New Account")).Click();
 
-        private By openAccountLink = By.LinkText("Open New Account");
-        private By openBtn = By.XPath("//input[@value='Open New Account']");
+        var accountType = new SelectElement(driver.FindElement(By.Id("type")));
+        accountType.SelectByText(type);
 
-        public void OpenAccount()
-        {
-            driver.FindElement(openAccountLink).Click();
-            DelayHelper.Sleep(300);
-            driver.FindElement(openBtn).Click();
-            DelayHelper.Sleep(300);
-        }
+        driver.FindElement(By.CssSelector("input[value='Open New Account']")).Click();
     }
 }

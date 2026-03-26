@@ -1,39 +1,28 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using Lab8.Pages;
-using Lab8.Utilities;
 
-namespace Lab8.Tests
+public class OpenAccountTests : BaseTest
 {
-    public class OpenAccountTests
+    [Test]
+    public void TC_AUTH_17_Open_Checking()
     {
-        IWebDriver driver;
+        var login = new LoginPage(driver);
+        login.Login("sang3107", "password123");
 
-        [SetUp]
-        public void Setup()
-        {
-            driver = DriverFactory.GetDriver();
-            driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/index.htm");
+        var open = new OpenAccountPage(driver);
+        open.OpenAccount("CHECKING");
 
-            new LoginPage(driver).Login("john", "demo");
-        }
+        Assert.IsTrue(driver.PageSource.Contains("Account Opened"));
+    }
 
-        [Test]
-        public void Open_Account()
-        {
-            try
-            {
-                new OpenAccountPage(driver).OpenAccount();
-            }
-            catch { }
+    [Test]
+    public void TC_AUTH_18_Open_Saving()
+    {
+        var login = new LoginPage(driver);
+        login.Login("sang3107", "password123");
 
-            Assert.IsTrue(true);
-        }
+        var open = new OpenAccountPage(driver);
+        open.OpenAccount("SAVINGS");
 
-        [TearDown]
-        public void TearDown()
-        {
-            try { driver?.Dispose(); } catch { }
-        }
+        Assert.IsTrue(driver.PageSource.Contains("Account Opened"));
     }
 }

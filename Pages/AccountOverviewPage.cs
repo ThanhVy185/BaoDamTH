@@ -1,22 +1,21 @@
 ﻿using OpenQA.Selenium;
-using Lab8.Utilities;
 
-namespace Lab8.Pages
+public class AccountOverviewPage
 {
-    public class AccountOverviewPage
+    IWebDriver driver;
+
+    public AccountOverviewPage(IWebDriver driver)
     {
-        private IWebDriver driver;
+        this.driver = driver;
+    }
 
-        public AccountOverviewPage(IWebDriver driver)
-        {
-            this.driver = driver;
-        }
+    public void GoToOverview()
+    {
+        driver.FindElement(By.LinkText("Accounts Overview")).Click();
+    }
 
-        private By accountTable = By.Id("accountTable");
-
-        public bool IsAccountTableDisplayed()
-        {
-            return driver.FindElement(accountTable).Displayed;
-        }
+    public string GetBalance()
+    {
+        return driver.FindElement(By.XPath("//table//tr[1]/td[2]")).Text;
     }
 }

@@ -1,23 +1,32 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-public class DriverFactory
+
+namespace Lab8.Utilities // Đảm bảo có namespace để các class khác tìm thấy [cite: 40, 41]
 {
-    private static IWebDriver driver;
-
-    public static IWebDriver GetDriver()
+    public class DriverFactory
     {
-        if (driver == null)
+        private static IWebDriver driver;
+
+        // Đổi tên thành CreateDriver để khớp với các file Test bạn đang viết
+        public static IWebDriver CreateDriver()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
+            if (driver == null)
+            {
+                driver = new ChromeDriver();
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10); // Thêm đợi ngầm định để tránh lỗi không tìm thấy element [cite: 68]
+                driver.Manage().Window.Maximize();
+            }
+            return driver;
         }
-        return driver;
-    }
 
-    public static void QuitDriver()
-    {
-        driver.Quit();
-        driver = null;
+        public static void QuitDriver()
+        {
+            if (driver != null)
+            {
+                driver.Quit();
+                driver = null;
+            }
+        }
     }
 }

@@ -1,0 +1,10 @@
+﻿{
+  "LoanRequest": {
+    "Amount": "5000",
+    "DownPayment": "500"
+  },
+  "LoanDenied": {
+    "Amount": "999999",
+    "DownPayment": "1"
+  }
+}

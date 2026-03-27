@@ -1,17 +1,36 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
-public class TransferPage
+namespace Lab8.Pages
 {
-    private IWebDriver driver;
-
-    public TransferPage(IWebDriver driver)
+    public class TransferFundsPage
     {
-        this.driver = driver;
-    }
+        private readonly IWebDriver _driver;
 
-    public void TransferMoney(string amount)
-    {
-        driver.FindElement(By.Id("amount")).SendKeys(amount);
-        driver.FindElement(By.XPath("//input[@value='Transfer']")).Click();
+        // 1. Locators (Nằm trong page) [cite: 28]
+        private By AmountInput = By.Id("amount");
+        private By FromAccountId = By.Id("fromAccountId");
+        private By ToAccountId = By.Id("toAccountId");
+        private By TransferButton = By.CssSelector("input[value='Transfer']");
+        private By SuccessMessage = By.XPath("//h1[text()='Transfer Complete!']");
+
+        public TransferFundsPage(IWebDriver driver)
+        {
+            _driver = driver;
+        }
+
+        // 2. Actions (Nằm trong page) [cite: 29]
+        public void TransferMoney(string amount, string fromAccount, string toAccount)
+        {
+            _driver.FindElement(AmountInput).SendKeys(amount);
+
+            // Đợi dropdown load xong rồi chọn account
+            new SelectElement(_driver.FindElement(FromAccountId)).SelectByText(fromAccount);
+            new SelectElement(_driver.FindElement(ToAccountId)).SelectByText(toAccount);
+
+            _driver.FindElement(TransferButton).Click();
+        }
+
+        public string GetResultTitle() => _driver.FindElement(SuccessMessage).Text;
     }
 }

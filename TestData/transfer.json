@@ -1,0 +1,12 @@
+﻿{
+  "ValidTransfer": {
+    "Amount": "500",
+    "FromAccountId": "13542",
+    "ToAccountId": "14000"
+  },
+  "InvalidTransfer": {
+    "Amount": "-100",
+    "FromAccountId": "13542",
+    "ToAccountId": "13542"
+  }
+}

@@ -8,7 +8,7 @@ namespace Lab8.Utilities
     {
         public static string TakeScreenshot(IWebDriver driver, string testName)
         {
-            string folder = @"C:\Users\Thanh Sang\OneDrive - Ho Chi Minh City University of Foreign Languages and Information Technology - HUFLIT\Desktop\ThanhSang\ảnh";
+            string folder = @"C:\Users\NITRO5\OneDrive - Ho Chi Minh City University of Foreign Languages and Information Technology - HUFLIT\Pictures\baodam";
 
             Directory.CreateDirectory(folder);
 

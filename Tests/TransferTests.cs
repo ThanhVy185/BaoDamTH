@@ -1,20 +1,31 @@
 ﻿using NUnit.Framework;
+using Lab8.Pages; // Đảm bảo using đúng folder Pages [cite: 36]
+using OpenQA.Selenium;
 
-public class TransferTests : BaseTest
+namespace Lab8.Tests
 {
-    [Test]
-    public void TC_TF_01_Valid()
+    [TestFixture]
+    
+    public class TransferTests : BaseTest // Quan trọng: Phải có ": BaseTest" [cite: 31]
     {
-        var t = new TransferPage(driver);
-        t.TransferMoney("50");
-        Assert.IsTrue(driver.PageSource.Contains("Complete"));
-    }
+        [Test]
+        public void TC_TF_01_TransferSuccess()
+        {
+           // Mở trang chủ ParaBank 
+            Driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/index.htm");
 
-    [Test] public void TC_TF_02_OverBalance() { Assert.Pass(); }
-    [Test] public void TC_TF_03_Empty() { Assert.Pass(); }
-    [Test] public void TC_TF_04_CheckBalance() { Assert.Pass(); }
-    [Test] public void TC_TF_05_SameAccount() { Assert.Pass(); }
-    [Test] public void TC_TF_06_Zero() { Assert.Pass(); }
-    [Test] public void TC_TF_07_Decimal() { Assert.Pass(); }
-    [Test] public void TC_TF_08_Negative() { Assert.Pass(); }
+            // Tạo object LoginPage và đăng nhập 
+            var loginPage = new LoginPage(Driver);
+            loginPage.Login("username_cua_vy", "password_123");
+
+            // Điều hướng đến chức năng Vy phụ trách 
+            Driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/transfer.htm");
+
+            var transferPage = new TransferFundsPage(Driver);
+            transferPage.TransferMoney("100", "13542", "13542");
+
+            // Cách viết mới để tránh lỗi CS0117
+             Assert.That(transferPage.GetResultTitle(), Is.EqualTo("Transfer Complete!")); 
+        }
+    }
 }

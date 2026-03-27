@@ -1,24 +1,25 @@
 ﻿using OpenQA.Selenium;
-using Lab8.Utilities;
 
 namespace Lab8.Pages
 {
     public class RequestLoanPage
     {
-        IWebDriver driver;
+        private readonly IWebDriver _driver;
 
-        public RequestLoanPage(IWebDriver driver)
+        private readonly By LoanAmountInput = By.Id("amount");
+        private readonly By DownPaymentInput = By.Id("downPayment");
+        private readonly By ApplyNowBtn = By.CssSelector("input[value='Apply Now']");
+        private readonly By LoanStatus = By.Id("loanStatus"); // Hiển thị Approved hoặc Denied
+
+        public RequestLoanPage(IWebDriver driver) => _driver = driver;
+
+        public void ApplyForLoan(string amount, string downPayment)
         {
-            this.driver = driver;
+            _driver.FindElement(LoanAmountInput).SendKeys(amount);
+            _driver.FindElement(DownPaymentInput).SendKeys(downPayment);
+            _driver.FindElement(ApplyNowBtn).Click();
         }
 
-        public void Request()
-        {
-            driver.FindElement(By.LinkText("Request Loan")).Click();
-            driver.FindElement(By.Id("amount")).SendKeys("100");
-            driver.FindElement(By.Id("downPayment")).SendKeys("10");
-
-            driver.FindElement(By.XPath("//input[@value='Apply Now']")).Click();
-        }
+        public string GetLoanStatus() => _driver.FindElement(LoanStatus).Text;
     }
 }

@@ -1,51 +1,24 @@
-﻿// Tests/RequestLoanTests.cs
+﻿using NUnit.Framework;
 using Lab8.Pages;
-using Lab8;
-using Lab8.Utilities;
-using OpenQA.Selenium;
-using NUnit.Framework;
 
 namespace Lab8.Tests
 {
     [TestFixture]
-    public class RequestLoanTests
+    public class RequestLoanTests : BaseTest
     {
-        IWebDriver driver;
-
-        [SetUp]
-        public void Setup()
-        {
-            driver = DriverFactory.GetDriver();
-            driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/index.htm");
-        }
-
         [Test]
-        public void Request_Loan()
+        public void TC_RL_01_RequestLoanApproved()
         {
-            try
-            {
-                new RequestLoanPage(driver).Request();
-            }
-            catch { }
+            var loginPage = new LoginPage(Driver);
+            loginPage.Login("john", "demo");
 
-            Assert.IsTrue(true);
-        }
+            Driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/requestloan.htm");
 
-        [TearDown]
-        public void TearDown()
-        {
-            if (driver != null)
-            {
-                try
-                {
-                    driver.Quit();
-                }
-                finally
-                {
-                    driver.Dispose();
-                    driver = null;
-                }
-            }
+            var loanPage = new RequestLoanPage(Driver);
+            loanPage.ApplyForLoan("1000", "100");
+
+            // Kiểm tra trạng thái duyệt vay [cite: 54]
+            Assert.That(loanPage.GetLoanStatus(), Is.EqualTo("Approved"));
         }
     }
 }

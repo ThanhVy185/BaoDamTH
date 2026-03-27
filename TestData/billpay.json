@@ -1,0 +1,12 @@
+﻿{
+  "PayeeInfo": {
+    "Name": "Thanh Vy",
+    "Address": "123 Quận 1",
+    "City": "Ho Chi Minh",
+    "State": "Vietnam",
+    "ZipCode": "70000",
+    "Phone": "0907302607",
+    "Account": "131313",
+    "Amount": "150"
+  }
+}

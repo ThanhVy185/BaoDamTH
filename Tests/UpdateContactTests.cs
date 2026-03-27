@@ -1,48 +1,34 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
 using Lab8.Pages;
 using Lab8.Utilities;
+using System.Collections.Generic;
 
 namespace Lab8.Tests
 {
-    public class UpdateContactTests
+    [TestFixture]
+    public class UpdateContactTests : BaseTest
     {
-        private IWebDriver driver;
-
-        [SetUp]
-        public void Setup()
-        {
-            driver = DriverFactory.GetDriver();
-            driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/index.htm");
-        }
-
         [Test]
-        public void Update_Contact()
+        public void TC_UP_01_ValidUpdate()
         {
-            try
-            {
-                new UpdateContactPage(driver).Update();
-            }
-            catch { }
+            // Login và vào trang Update
+            new LoginPage(Driver).Login("sang3107", "password123");
+            Driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/updateprofile.htm");
 
-            Assert.IsTrue(true);
-        }
+            // Đọc dữ liệu từ JSON (Không dùng dynamic)
+            Dictionary<string, string> data = JsonHelper.ReadData("updateContact.json", "TC_UP_01");
 
-        [TearDown]
-        public void TearDown()
-        {
-            if (driver != null)
-            {
-                try
-                {
-                    driver.Quit();
-                }
-                finally
-                {
-                    driver.Dispose();
-                    driver = null;
-                }
-            }
+            var page = new UpdateContactPage(Driver);
+
+            // Truy xuất dữ liệu theo Key
+            page.UpdateInfo(
+                data["FirstName"],
+                data["Address"],
+                data["City"],
+                data["Phone"]
+            );
+
+            Assert.That(Driver.PageSource.Contains("Profile Updated Successfully"), Is.True);
         }
     }
 }

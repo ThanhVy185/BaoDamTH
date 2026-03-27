@@ -1,19 +1,30 @@
-﻿using Lab8.Pages;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Lab8.Pages;
 
-public class FindTransactionTests : BaseTest
+namespace Lab8.Tests
 {
-    [Test]
-    public void TC_FT_01_ByDate()
+    [TestFixture]
+    public class FindTransactionsTests : BaseTest
     {
-        var f = new FindTransactionPage(driver);
-        f.SearchByDate("3/15/2026");
-        Assert.IsTrue(driver.PageSource.Contains("Transaction"));
-    }
+        [Test]
+        public void TC_FT_01_SearchByAmount()
+        {
+            // 1. Đăng nhập
+            var login = new LoginPage(Driver);
+            login.Login("sang3107", "password123");
 
-    [Test] public void TC_FT_02_ByAmount() { Assert.Pass(); }
-    [Test] public void TC_FT_03_ByID() { Assert.Pass(); }
-    [Test] public void TC_FT_04_Empty() { Assert.Pass(); }
-    [Test] public void TC_FT_05_InvalidDate() { Assert.Pass(); }
-    [Test] public void TC_FT_06_Future() { Assert.Pass(); }
+            // 2. Chuyển hướng đúng trang (QUAN TRỌNG)
+            Driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/findtrans.htm");
+
+            // 3. Thực hiện tìm kiếm
+            var findPage = new FindTransactionsPage(Driver);
+            findPage.FindByAmount("100");
+
+            // 4. Kiểm tra kết quả
+            Assert.That(Driver.PageSource, Does.Contain("Transaction Results"));
+
+            // Dừng lại 3 giây để Vy xem bảng kết quả hiện ra
+            System.Threading.Thread.Sleep(3000);
+        }
+    }
 }

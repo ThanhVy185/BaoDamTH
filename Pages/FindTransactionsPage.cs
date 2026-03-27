@@ -1,17 +1,32 @@
 ﻿using OpenQA.Selenium;
+using System.Threading;
 
-public class FindTransactionPage
+namespace Lab8.Pages
 {
-    private IWebDriver driver;
-
-    public FindTransactionPage(IWebDriver driver)
+    public class FindTransactionsPage
     {
-        this.driver = driver;
-    }
+        private readonly IWebDriver _driver;
 
-    public void SearchByDate(string date)
-    {
-        driver.FindElement(By.Id("criteria.onDate")).SendKeys(date);
-        driver.FindElement(By.XPath("//button[contains(text(),'Find')]")).Click();
+        // CHỈ GIỮ LẠI MỘT BỘ BIẾN DUY NHẤT DƯỚI ĐÂY
+        private readonly By AmountInput = By.Id("criteria.amount");
+        private readonly By FindByAmountBtn = By.XPath("//button[@ng-click=\"findTransactions('AMOUNT')\"]");
+
+        public FindTransactionsPage(IWebDriver driver)
+        {
+            _driver = driver;
+        }
+
+        public void FindByAmount(string amount)
+        {
+            // Xóa trắng ô nhập trước khi điền
+            _driver.FindElement(AmountInput).Clear();
+            _driver.FindElement(AmountInput).SendKeys(amount);
+
+            // Dừng 2 giây để Vy đọc kịp số tiền đã điền
+            Thread.Sleep(2000);
+
+            // Nhấn nút Tìm kiếm
+            _driver.FindElement(FindByAmountBtn).Click();
+        }
     }
 }

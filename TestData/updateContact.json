@@ -1,0 +1,20 @@
+﻿{
+  "TC_UP_01": {
+    "FirstName": "Vy",
+    "Address": "123 Ly Thuong Kiet",
+    "City": "Da Nang",
+    "Phone": "0907302607"
+  },
+  "TC_UP_02": {
+    "FirstName": "",
+    "Address": "123 Ly Thuong Kiet",
+    "City": "HCM",
+    "Phone": "0907302607"
+  },
+  "TC_UP_04": {
+    "FirstName": "Vy",
+    "Address": "123 Ly Thuong Kiet",
+    "City": "123456",
+    "Phone": "0907302607"
+  }
+}

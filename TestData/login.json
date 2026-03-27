@@ -1,12 +1,14 @@
 ﻿{
-  "TC05": {
-    "username": "sang3107",
-    "password": "password123"
-  },
-  "TC06": {
-    "username": "sang3107",
-    "password": "123"
-  },
+  {
+    "TC05": {
+      "username": "sang3107",
+      "password": "password123"
+    },
+    "TC06": {
+      "username": "sang3107",
+      "password": "wrongpassword"
+    }
+  }
   "TC07": {
     "username": "abc",
     "password": "123"

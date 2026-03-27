@@ -1,28 +1,44 @@
 ﻿using NUnit.Framework;
+using Lab8.Pages;   // Để nhận diện LoginPage, OpenAccountPage
+using Lab8.Tests;   // Để nhận diện BaseTest
 
-public class OpenAccountTests : BaseTest
+namespace Lab8.Tests
 {
-    [Test]
-    public void TC_AUTH_17_Open_Checking()
+    [TestFixture]
+    public class OpenAccountTests : BaseTest
     {
-        var login = new LoginPage(driver);
-        login.Login("sang3107", "password123");
+        [Test]
+        public void TC_AUTH_17_Open_Checking()
+        {
+            // Sửa driver -> Driver (viết hoa chữ D) theo BaseTest của nhóm
+            var login = new LoginPage(Driver);
+            login.Login("sang3107", "password123");
 
-        var open = new OpenAccountPage(driver);
-        open.OpenAccount("CHECKING");
+            // Đảm bảo Vy đã có file OpenAccountPage.cs trong folder Pages
+            var open = new OpenAccountPage(Driver);
 
-        Assert.IsTrue(driver.PageSource.Contains("Account Opened"));
-    }
+            // Navigate trực tiếp đến trang mở tài khoản
+            Driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/openaccount.htm");
 
-    [Test]
-    public void TC_AUTH_18_Open_Saving()
-    {
-        var login = new LoginPage(driver);
-        login.Login("sang3107", "password123");
+            open.OpenAccount("CHECKING");
 
-        var open = new OpenAccountPage(driver);
-        open.OpenAccount("SAVINGS");
+            // Dùng Assert.That theo chuẩn NUnit mới để không bị lỗi CS0117
+            Assert.That(Driver.PageSource.Contains("Account Opened"), Is.True);
+        }
 
-        Assert.IsTrue(driver.PageSource.Contains("Account Opened"));
+        [Test]
+        public void TC_AUTH_18_Open_Saving()
+        {
+            var login = new LoginPage(Driver);
+            login.Login("sang3107", "password123");
+
+            var open = new OpenAccountPage(Driver);
+
+            Driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/openaccount.htm");
+
+            open.OpenAccount("SAVINGS");
+
+            Assert.That(Driver.PageSource.Contains("Account Opened"), Is.True);
+        }
     }
 }
